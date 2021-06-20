@@ -1,4 +1,5 @@
-FROM python:3.9-slim
+# If you run this in M1, it'll assume current arch which is linux/arm64/v8. This leads to a missing /lib64/.. file.
+FROM --platform=linux/amd64 python:3.9-slim
 
 ENV PYTHONUNBUFFERED 1
 WORKDIR /app
@@ -13,6 +14,9 @@ RUN set -ex \
 	&& buildDeps=" \
 		build-essential \
 		libssl-dev \
+    postgresql \
+    postgresql-server-dev-11 \
+    libpq-dev \
 		" \
     && apt-get update \
     && apt-get install -y --no-install-recommends $buildDeps \
